@@ -22,7 +22,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Products | List
+     * 
+     * Display a listing of products.
+     * 
+     * @authenticated
      */
     public function index()
     {
@@ -39,7 +43,10 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Products | New
+     * 
+     * Store a newly created product in database.
+     * @authenticated
      */
     public function store(StoreProductRequest $request)
     {
@@ -60,7 +67,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Products | Show
+     * 
+     * Display the specified product.
+     * 
+     * @authenticated
      */
     public function show($id)
     {
@@ -77,7 +88,10 @@ class ProductController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Products | Update
+     * 
+     * Update the specified product in database.
+     * @authenticated
      */
     public function update(UpdateProductRequest $request, $id)
     {
@@ -85,11 +99,9 @@ class ProductController extends Controller
             'name' => $request->name,
             'details' => $request->details,
         ];
-
         DB::beginTransaction();
         try{
             $product = $this->productRepositoryInterface->update($details, $id);
-
             DB::commit();
             return ResponseClass::sendResponse(new ProductResource($product), 'Product Update Successful', 201);
         } catch(\Exception $ex){
@@ -98,12 +110,15 @@ class ProductController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Products | Delete
+     * 
+     * Remove the specified product from database.
+     * @authenticated
      */
     public function destroy($id)
     {
         $this->productRepositoryInterface->delete($id);
 
-        return ResponseClass::sendResponse('Product Delete Successful', '', 204);
+        return ResponseClass::sendResponse('Product Delete Successful', 'Product Delete Successful', 204);
     }
 }

@@ -21,6 +21,12 @@ class UserController extends Controller
         $this->UserRepositoryInterface = $UserRepositoryInterface;
     }
 
+    /**
+     * Users | New
+     * 
+     * Store a newly created user in database.
+     */
+
     public function register(Request $request){
          $details = [
             'name' => $request->name,
@@ -37,21 +43,5 @@ class UserController extends Controller
         } catch(\Exception $ex){
             return ResponseClass::rollback($ex);
         }   
-    }
-
-    public function login(Request $request){
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $result = $this->UserAuthService->login($request->email, $request->password);
-
-        return ResponseClass::sendResponse($result, 'Login Successful', 200);
-    }
-
-    public function logout(){
-        $this->UserAuthService->logout();
-        return ResponseClass::sendResponse('Logout Sucessful', '', 204);
     }
 }

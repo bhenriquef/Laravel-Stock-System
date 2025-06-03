@@ -19,6 +19,11 @@ class LoginController extends Controller
         $this->UserAuthService = $UserAuthService;
     }
 
+    /**
+     * Login
+     * 
+     */
+
     public function login(LoginRequest $request) : JsonResponse{
         $dto = LoginDTO::fromArray($request->validated());
         $result = $this->UserAuthService->login($dto);
@@ -26,8 +31,14 @@ class LoginController extends Controller
         return ResponseClass::sendResponse($result, 'Login Successful', 200);
     }
 
+    /**
+     * Logout
+     * 
+     * @authenticated
+     */
+
     public function logout(){
         $this->UserAuthService->logout();
-        return ResponseClass::sendResponse('Logout Sucessful', '', 204);
+        return ResponseClass::sendResponse('Logout Sucessful', 'Logout Sucessful', 204);
     }
 }

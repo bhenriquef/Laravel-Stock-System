@@ -10,9 +10,12 @@ Route::post('register',[UserController::class,'register']);
 Route::post('login',[LoginController::class,'login']);
 Route::middleware('auth:sanctum')->post('/logout',[LoginController::class, 'logout']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
+// Route::apiResource('/products', ProductController::class)->middleware('auth:sanctum');;
+Route::prefix('products')->group(function(){
+    Route::get('/', [ProductController::class, 'index']);
+    Route::post('/new', [ProductController::class, 'store']);
+    Route::get('/{id}', [ProductController::class, 'show']);
+    Route::put('/{id}', [ProductController::class, 'update']);
+    Route::delete('/{id}', [ProductController::class, 'destroy']);
 })->middleware('auth:sanctum');
-
-Route::apiResource('/products', ProductController::class)->middleware('auth:sanctum');;
 
