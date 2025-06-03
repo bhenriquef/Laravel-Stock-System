@@ -2,24 +2,24 @@
 
 namespace App\Services;
 
-use App\Interfaces\UserAuthRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use App\Classes\ResponseClass;
-use Auth;
+use App\DTOs\LoginDTO;
 
 class UserAuthService
 {
     /**
      * Create a new class instance.
      */
-    public function __construct(protected UserAuthRepositoryInterface $userAuthRepository)
+    public function __construct(protected UserRepositoryInterface $UserRepository)
     {
     }
 
-    public function login(string $email, string $password) {
-        $user = $this->userAuthRepository->getByEmail($email);
+    public function login(LoginDTO $dto) : array {
+        $user = $this->UserRepository->getByEmail($dto->email);
 
-        if(!$user || !Hash::check($password, $user->password)){
+        if(!$user || !Hash::check($dto->password, $user->password)){
             return ResponseClass::throw('Invalid Credentials', 'Invalid Credentials', 401);
         }
 

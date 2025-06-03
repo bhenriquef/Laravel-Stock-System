@@ -3,11 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\LoginController;
 
-Route::post('register',[UserAuthController::class,'register']);
-Route::post('login',[UserAuthController::class,'login']);
-Route::middleware('auth:sanctum')->post('/logout',[UserAuthController::class, 'logout']);
+Route::post('register',[UserController::class,'register']);
+Route::post('login',[LoginController::class,'login']);
+Route::middleware('auth:sanctum')->post('/logout',[LoginController::class, 'logout']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();

@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\UserAuthRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 
-class UserAuthRepository implements UserAuthRepositoryInterface
+class UserRepository implements UserRepositoryInterface
 {
     public function index(){
         return User::all();

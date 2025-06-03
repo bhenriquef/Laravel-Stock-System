@@ -6,19 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Services\UserAuthService;
 use Illuminate\Http\Request;
 use App\Classes\ResponseClass;
-use App\Http\Resources\UserAuthResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\DB;
-use App\Interfaces\UserAuthRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 
-class UserAuthController extends Controller
+class UserController extends Controller
 {
-    private UserAuthService $userAuthService;
-    private UserAuthRepositoryInterface $userAuthRepositoryInterface;
+    private UserAuthService $UserAuthService;
+    private UserRepositoryInterface $UserRepositoryInterface;
 
-    public function __construct(UserAuthService $userAuthService,  UserAuthRepositoryInterface $userAuthRepositoryInterface)
+    public function __construct(UserAuthService $UserAuthService,  UserRepositoryInterface $UserRepositoryInterface)
     {
-        $this->userAuthService = $userAuthService;
-        $this->userAuthRepositoryInterface = $userAuthRepositoryInterface;
+        $this->UserAuthService = $UserAuthService;
+        $this->UserRepositoryInterface = $UserRepositoryInterface;
     }
 
     public function register(Request $request){
@@ -30,10 +30,10 @@ class UserAuthController extends Controller
 
         DB::beginTransaction();
         try{
-            $user = $this->userAuthRepositoryInterface->store($details);
+            $user = $this->UserRepositoryInterface->store($details);
 
             DB::commit();
-            return ResponseClass::sendResponse(new UserAuthResource($user), 'User Create Successful', 201);
+            return ResponseClass::sendResponse(new UserResource($user), 'User Create Successful', 201);
         } catch(\Exception $ex){
             return ResponseClass::rollback($ex);
         }   
@@ -45,13 +45,13 @@ class UserAuthController extends Controller
             'password' => 'required',
         ]);
 
-        $result = $this->userAuthService->login($request->email, $request->password);
+        $result = $this->UserAuthService->login($request->email, $request->password);
 
         return ResponseClass::sendResponse($result, 'Login Successful', 200);
     }
 
     public function logout(){
-        $this->userAuthService->logout();
+        $this->UserAuthService->logout();
         return ResponseClass::sendResponse('Logout Sucessful', '', 204);
     }
 }
