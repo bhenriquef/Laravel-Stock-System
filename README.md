@@ -1,6 +1,6 @@
 # Laravel API Products
 
-A RESTful API built with Laravel for managing products, using a containerized environment with Docker.
+A RESTful API built with Laravel and Docker for managing product stock, designed as a personal project to practice and improve my skills with Laravel and React. The goal is to develop a complete stock management system with a React-based frontend and a Laravel backend running in a containerized environment. The project is still in development.
 
 ## Technologies
 
