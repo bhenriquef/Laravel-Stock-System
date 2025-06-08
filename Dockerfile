@@ -18,6 +18,22 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable redis
 
 # Instala Composer
-COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
+
+COPY . .
+
+RUN composer install --no-dev --optimize-autoloader
+
+# Gera chave do app
+RUN php artisan key:generate
+
+RUN php artisan config:cache
+
+# (Opcional) Executa migrations
+# RUN php artisan migrate --force
+
+EXPOSE 8000
+
+CMD php artisan serve --host=0.0.0.0 --port=8000
