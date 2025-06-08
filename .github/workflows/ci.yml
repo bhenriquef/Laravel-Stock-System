@@ -37,14 +37,14 @@ jobs:
           extensions: mbstring, bcmath, pdo, pdo_mysql, intl
           coverage: none
 
+      - name: Install dependencies
+        run: composer install --no-scripts --no-progress --prefer-dist
+
       - name: Copy .env and generate key
         run: |
           cp .env.example .env
           php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
-
-      - name: Install dependencies
-        run: composer install --no-progress --prefer-dist
 
       - name: Wait for MySQL
         run: sleep 15
