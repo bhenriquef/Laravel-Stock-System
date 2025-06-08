@@ -11,6 +11,8 @@ use App\Classes\ResponseClass;
 use App\Http\Resources\ProductResource;
 use App\Interfaces\ProductRepositoryInterface;
 use Illuminate\Support\Facades\DB;
+use App\DTOs\ProductDTO;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
@@ -28,7 +30,7 @@ class ProductController extends Controller
      * 
      * @authenticated
      */
-    public function index()
+    public function index() : JsonResponse
     {
         $data = $this->productRepositoryInterface->index();
         return ResponseClass::sendResponse(ProductResource::collection($data), '', 200);
@@ -48,16 +50,13 @@ class ProductController extends Controller
      * Store a newly created product in database.
      * @authenticated
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request) : JsonResponse
     {
-        $details = [
-            'name' => $request->name,
-            'details' => $request->details,
-        ];
+        $dto = ProductDTO::fromArray($request->validated());
 
         DB::beginTransaction();
         try{
-            $product = $this->productRepositoryInterface->store($details);
+            $product = $this->productRepositoryInterface->store($dto);
 
             DB::commit();
             return ResponseClass::sendResponse(new ProductResource($product), 'Product Create Successful', 201);
@@ -73,7 +72,7 @@ class ProductController extends Controller
      * 
      * @authenticated
      */
-    public function show($id)
+    public function show($id) : JsonResponse
     {
         $product = $this->productRepositoryInterface->getById($id);
         return ResponseClass::sendResponse(new ProductResource($product), '', 200);
@@ -93,17 +92,14 @@ class ProductController extends Controller
      * Update the specified product in database.
      * @authenticated
      */
-    public function update(UpdateProductRequest $request, $id)
+    public function update(UpdateProductRequest $request, $id) : JsonResponse
     {
-        $details = [
-            'name' => $request->name,
-            'details' => $request->details,
-        ];
+        $dto = ProductDTO::fromArray($request->validated());
         DB::beginTransaction();
         try{
-            $product = $this->productRepositoryInterface->update($details, $id);
+            $product = $this->productRepositoryInterface->update($dto, $id);
             DB::commit();
-            return ResponseClass::sendResponse(new ProductResource($product), 'Product Update Successful', 201);
+            return ResponseClass::sendResponse(new ProductResource($product), 'Product Update Successful', 200);
         } catch(\Exception $ex){
             return ResponseClass::rollback($ex);
         }
@@ -115,7 +111,7 @@ class ProductController extends Controller
      * Remove the specified product from database.
      * @authenticated
      */
-    public function destroy($id)
+    public function destroy($id) : JsonResponse
     {
         $this->productRepositoryInterface->delete($id);
 

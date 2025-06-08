@@ -3,6 +3,7 @@
 namespace App\Repositories;
 use App\Models\Product;
 use App\Interfaces\ProductRepositoryInterface;
+use App\DTOs\ProductDTO;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -16,13 +17,15 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::findOrFail($id);
     }
 
-    public function store(array $data)
+    public function store(ProductDTO $data)
     {
+        $data = ProductDTO::toArray($data);
         return Product::create($data);
     }
 
-    public function update(array $data, $id)
+    public function update(ProductDTO $data, $id)
     {
+        $data = ProductDTO::toArray($data);
         $Product = Product::find($id);
         $Product->update($data);
         return $Product;

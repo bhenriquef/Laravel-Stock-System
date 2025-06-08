@@ -37,7 +37,7 @@ class LoginController extends Controller
      * @authenticated
      */
 
-    public function logout(){
+    public function logout() : JsonResponse{
         $this->UserAuthService->logout();
         return ResponseClass::sendResponse('Logout Sucessful', 'Logout Sucessful', 204);
     }
