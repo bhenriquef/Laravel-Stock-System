@@ -19,6 +19,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->word(),
             'details' => $this->faker->word(),
+            'base_price' => $this->faker->randomDigit(),
         ];
     }
 }
