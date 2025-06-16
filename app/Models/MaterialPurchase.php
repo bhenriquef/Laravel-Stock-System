@@ -9,4 +9,6 @@ class MaterialPurchase extends Model
 {
     /** @use HasFactory<\Database\Factories\MaterialPurchaseFactory> */
     use HasFactory;
+
+    protected $guarded = [];
 }

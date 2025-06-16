@@ -17,7 +17,8 @@ class ShippingsFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word(),
+            'details' => $this->faker->word(),
         ];
     }
 }

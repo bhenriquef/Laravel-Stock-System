@@ -11,7 +11,7 @@ class UpdatePromotionsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdatePromotionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'details' => 'required',
+            'price' => 'required',
+            'porcentage' => 'required',
+            'client_id' => 'required',
+            'product_id' => 'required',
         ];
     }
 }

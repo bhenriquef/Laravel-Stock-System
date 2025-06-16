@@ -9,4 +9,6 @@ class Promotions extends Model
 {
     /** @use HasFactory<\Database\Factories\PromotionsFactory> */
     use HasFactory;
+
+    protected $guarded = [];
 }
