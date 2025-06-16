@@ -25,21 +25,21 @@ class ProductTest extends TestCase
                 ->assertJsonCount(4, 'data');
     }
 
-    // public function test_crete_product(){
-    //     $data = [
-    //         'name' => 'bola',
-    //         'details' => 'bola de praia',
-    //         'base_price' => 20,
-    //     ];
+    public function test_crete_product(){
+        $data = [
+            'name' => 'bola',
+            'details' => 'bola de praia',
+            'base_price' => 20,
+        ];
 
-    //     $response = $this->postJson('/api/products/new', $data);
+        $response = $this->postJson('/api/products/new', $data);
 
-    //     $response->assertStatus(201)
-    //             ->assertJsonStructure(['data'])
-    //             ->assertJsonFragment(['name' => 'bola']);
+        $response->assertStatus(201)
+                ->assertJsonStructure(['data'])
+                ->assertJsonFragment(['name' => 'bola']);
 
-    //     $this->assertDatabaseHas('products', ['name' => 'bola']);
-    // }
+        $this->assertDatabaseHas('products', ['name' => 'bola']);
+    }
 
     public function test_show_product(){
         $product = Product::factory()->create();

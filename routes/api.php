@@ -61,4 +61,4 @@ Route::apiResource('/material_purchase', MaterialPurchaseController::class)->mid
 Route::apiResource('/material_purchase_item', MaterialPurchaseItemController::class)->middleware('auth:sanctum');
 
 // Product Material
-Route::apiResource('/material_purchase_item', ProductMaterialController::class)->middleware('auth:sanctum');
+Route::apiResource('/product_material', ProductMaterialController::class)->middleware('auth:sanctum');
